@@ -3,6 +3,7 @@ import { SalesListPage } from './pages/SalesListPage';
 import { SignPage } from './pages/SignPage';
 import { CreateSalePage } from './pages/CreateSalePage';
 import { ViewSalePage } from './pages/ViewSalePage';
+import { ConfigAssinaturaPage } from './pages/ConfigAssinaturePage';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/sign/:id" element={<SignPage />} />
         <Route path="/create" element={<CreateSalePage />} />
         <Route path="/view/:id" element={<ViewSalePage />} />
+        <Route path="/config-signature" element={<ConfigAssinaturaPage />} /> {/* Nova rota */}
       </Routes>
     </BrowserRouter>
   );

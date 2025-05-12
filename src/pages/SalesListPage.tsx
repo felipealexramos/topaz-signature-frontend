@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Sale {
   id: number;
@@ -21,9 +21,27 @@ export function SalesListPage() {
   return (
     <div style={{ padding: "20px" }}>
       <h1>Notas Fiscais</h1>
-      <button onClick={() => navigate("/create")} style={{ marginBottom: 20 }}>
-        Nova Venda
-      </button>
+      <div style={{ display: "flex", alignItems: "center", alignContent: "center", gap: 10 }}>
+        <Link
+          to="/config-signature"
+          style={{
+            marginBottom: 20,
+            textDecoration: "none",
+            color: "blue",
+            padding: 10,
+            border: "1px solid blue",
+            borderRadius: 5,
+          }}
+        >
+          Configurar Método de Assinatura
+        </Link>
+        <button
+          onClick={() => navigate("/create")}
+          style={{ marginBottom: 20 }}
+        >
+          Nova Venda
+        </button>
+      </div>
       <table border={1} cellPadding={10} cellSpacing={0}>
         <thead>
           <tr>
@@ -53,7 +71,10 @@ export function SalesListPage() {
                 <button onClick={() => navigate(`/sign/${sale.id}`)}>
                   Assinar
                 </button>
-                <button onClick={() => navigate(`/view/${sale.id}`)} style={{ marginLeft: 10 }}>
+                <button
+                  onClick={() => navigate(`/view/${sale.id}`)}
+                  style={{ marginLeft: 10 }}
+                >
                   Visualizar
                 </button>
               </td>
