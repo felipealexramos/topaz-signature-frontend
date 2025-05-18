@@ -32,10 +32,19 @@ export function ViewSalePage() {
         <strong>Assinatura:</strong>
         <div>
           {sale.signatureBase64 ? (
-            <img src={sale.signatureBase64} alt="Assinatura" style={{ marginTop: 10 }} />
+            <img
+              src={
+                sale.signatureBase64.startsWith('data:image')
+                  ? sale.signatureBase64
+                  : `data:image/jpeg;base64,${sale.signatureBase64}`
+              }
+              alt="Assinatura"
+              style={{ marginTop: 10, maxWidth: '100%', height: 'auto' }}
+            />
           ) : (
             <p style={{ color: 'red' }}>Ainda não assinada</p>
           )}
+
         </div>
       </div>
 

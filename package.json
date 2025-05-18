@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@felipealexandre/signature-lib": "^0.4.1",
+    "@felipealexandre/signature-lib": "^0.4.3",
     "axios": "^1.9.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

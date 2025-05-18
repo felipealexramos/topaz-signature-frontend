@@ -1,18 +1,13 @@
 import {
-  CanvasSignatureAdapter,
-  TopazExtLiteAdapter,
+  SigPlusExtLiteAdapter,
   type ISignatureAdapter,
 } from '@felipealexandre/signature-lib';
 
-export type MetodoAssinatura = 'canvas' | 'topaz' | 'topazextlite' | 'touchscreen';
+export type MetodoAssinatura = 'canvas' | 'topazextlite' | 'topaz' | 'touchscreen';
 
 export function getAdapterByMetodo(metodo: string): ISignatureAdapter {
   switch (metodo) {
-    case 'canvas':
-      return new CanvasSignatureAdapter();
-    case 'topazextlite':
-      return new TopazExtLiteAdapter();
     default:
-      return new CanvasSignatureAdapter();
+      return new SigPlusExtLiteAdapter();
   }
 }
