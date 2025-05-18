@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../services/api';
-import { CanvasSignatureAdapter, TopazSignatureAdapter, SignatureComponent } from '@felipealexandre/signature-lib';
+import { SignatureComponent } from '@felipealexandre/signature-lib';
+import { getAdapterByMetodo } from '../config/signatureMethods';
 
 
 interface Sale {
@@ -16,17 +17,27 @@ export function SignPage() {
   const [sale, setSale] = useState<Sale | null>(null);
   const [adapter, setAdapter] = useState<any>(null);
 
-  useEffect(() => {
-    api.get(`/sales/${id}`).then((res) => setSale(res.data));
+useEffect(() => {
+  api.get(`/sales/${id}`).then((res) => setSale(res.data));
 
-    const metodo = localStorage.getItem('metodoAssinatura') || 'canvas';
+  const metodo = localStorage.getItem('metodoAssinatura') || 'canvas';
 
-    if (metodo === 'canvas' || metodo === 'touchscreen') {
-      setAdapter(new CanvasSignatureAdapter());
-    } else if (metodo === 'topaz') {
-      setAdapter(new TopazSignatureAdapter());
+  const tryLoad = async () => {
+    if (metodo === 'topaz') {
+      // espera carregar o script sigweb
+      while (typeof window.SetTabletState !== 'function') {
+        console.log('Aguardando SigWebTablet...');
+        await new Promise((res) => setTimeout(res, 200));
+      }
     }
-  }, [id]);
+
+    const adapter = getAdapterByMetodo(metodo);
+    setAdapter(adapter);
+  };
+
+  tryLoad();
+}, [id]);
+
 
   const handleSign = (base64: string) => {
     if (!sale) return;

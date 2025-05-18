@@ -29,25 +29,13 @@ export function ConfigAssinaturaPage() {
       <div>
         <input
           type="radio"
-          id="topaz"
+          id="topazextlite"
           name="metodo"
-          value="topaz"
-          checked={metodo === 'topaz'}
+          value="topazextlite"
+          checked={metodo === 'topazextlite'}
           onChange={(e) => setMetodo(e.target.value)}
         />
-        <label htmlFor="topaz">Topaz SigWeb</label>
-      </div>
-
-      <div>
-        <input
-          type="radio"
-          id="touchscreen"
-          name="metodo"
-          value="touchscreen"
-          checked={metodo === 'touchscreen'}
-          onChange={(e) => setMetodo(e.target.value)}
-        />
-        <label htmlFor="touchscreen">Touchscreen (Canvas Mobile)</label>
+        <label htmlFor="topazextlite">Topaz ExtLite (Extensão Chrome)</label>
       </div>
 
       <button onClick={handleSubmit} style={{ marginTop: 20 }}>

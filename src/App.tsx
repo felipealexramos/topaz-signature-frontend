@@ -4,6 +4,7 @@ import { SignPage } from './pages/SignPage';
 import { CreateSalePage } from './pages/CreateSalePage';
 import { ViewSalePage } from './pages/ViewSalePage';
 import { ConfigAssinaturaPage } from './pages/ConfigAssinaturePage';
+import { TopazSignatureCapture } from './pages/TopazSignaturePage';
 
 function App() {
   return (
@@ -14,6 +15,8 @@ function App() {
         <Route path="/create" element={<CreateSalePage />} />
         <Route path="/view/:id" element={<ViewSalePage />} />
         <Route path="/config-signature" element={<ConfigAssinaturaPage />} /> {/* Nova rota */}
+        <Route path="/topaz" element={<TopazSignatureCapture />} />
+        <Route path="*" element={<h1>Página não encontrada</h1>} />
       </Routes>
     </BrowserRouter>
   );
