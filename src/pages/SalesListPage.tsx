@@ -19,69 +19,67 @@ export function SalesListPage() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Notas Fiscais</h1>
-      <div style={{ display: "flex", alignItems: "center", alignContent: "center", gap: 10 }}>
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-6">Notas Fiscais</h1>
+      <div className="flex items-center gap-4 mb-6">
         <Link
           to="/config-signature"
-          style={{
-            marginBottom: 20,
-            textDecoration: "none",
-            color: "blue",
-            padding: 10,
-            border: "1px solid blue",
-            borderRadius: 5,
-          }}
+          className="px-4 py-2 border border-blue-600 rounded text-blue-600 hover:bg-blue-50 transition"
         >
           Configurar Método de Assinatura
         </Link>
         <button
           onClick={() => navigate("/create")}
-          style={{ marginBottom: 20 }}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
         >
           Nova Venda
         </button>
       </div>
-      <table border={1} cellPadding={10} cellSpacing={0}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Valor</th>
-            <th>Data</th>
-            <th>Status</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sales.map((sale) => (
-            <tr key={sale.id}>
-              <td>{sale.id}</td>
-              <td>{sale.customerName}</td>
-              <td>R$ {sale.value.toFixed(2)}</td>
-              <td>{new Date(sale.createdAt).toLocaleString()}</td>
-              <td>
-                {sale.signatureBase64 ? (
-                  <span style={{ color: "green" }}>Assinado</span>
-                ) : (
-                  <span style={{ color: "red" }}>Pendente</span>
-                )}
-              </td>
-              <td>
-                <button onClick={() => navigate(`/sign/${sale.id}`)}>
-                  Assinar
-                </button>
-                <button
-                  onClick={() => navigate(`/view/${sale.id}`)}
-                  style={{ marginLeft: 10 }}
-                >
-                  Visualizar
-                </button>
-              </td>
+      <div className="overflow-x-auto">
+        <table className="min-w-full border border-gray-200 rounded shadow-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-2 border-b">ID</th>
+              <th className="px-4 py-2 border-b">Cliente</th>
+              <th className="px-4 py-2 border-b">Valor</th>
+              <th className="px-4 py-2 border-b">Data</th>
+              <th className="px-4 py-2 border-b">Status</th>
+              <th className="px-4 py-2 border-b">Ação</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {sales.map((sale) => (
+              <tr key={sale.id} className="hover:bg-gray-50">
+                <td className="px-4 py-2 border-b text-center">{sale.id}</td>
+                <td className="px-4 py-2 border-b">{sale.customerName}</td>
+                <td className="px-4 py-2 border-b">R$ {sale.value.toFixed(2)}</td>
+                <td className="px-4 py-2 border-b">{new Date(sale.createdAt).toLocaleString()}</td>
+                <td className="px-4 py-2 border-b text-center">
+                  {sale.signatureBase64 ? (
+                    <span className="text-green-600 font-semibold">Assinado</span>
+                  ) : (
+                    <span className="text-red-600 font-semibold">Pendente</span>
+                  )}
+                </td>
+                <td className="px-4 py-2 border-b text-center">
+                  <button
+                    onClick={() => navigate(`/sign/${sale.id}`)}
+                    className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 transition"
+                  >
+                    Assinar
+                  </button>
+                  <button
+                    onClick={() => navigate(`/view/${sale.id}`)}
+                    className="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition ml-2"
+                  >
+                    Visualizar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

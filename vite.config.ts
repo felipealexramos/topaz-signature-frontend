@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // export default defineConfig({
 //   plugins: [react()],
@@ -15,7 +16,7 @@ import react from '@vitejs/plugin-react';
 
 // vite.config.ts
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   server: {
     port: 5173, // ou qualquer porta
     // https: { key: fs.readFileSync(...), cert: fs.readFileSync(...) } <- comente isso
