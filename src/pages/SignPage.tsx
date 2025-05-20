@@ -17,26 +17,26 @@ export function SignPage() {
   const [sale, setSale] = useState<Sale | null>(null);
   const [adapter, setAdapter] = useState<any>(null);
 
-useEffect(() => {
-  api.get(`/sales/${id}`).then((res) => setSale(res.data));
+  useEffect(() => {
+    api.get(`/sales/${id}`).then((res) => setSale(res.data));
 
-  const metodo = localStorage.getItem('metodoAssinatura') || 'canvas';
+    const metodo = localStorage.getItem('metodoAssinatura') || 'canvas';
 
-  const tryLoad = async () => {
-    if (metodo === 'topaz') {
-      // espera carregar o script sigweb
-      while (typeof window.SetTabletState !== 'function') {
-        console.log('Aguardando SigWebTablet...');
-        await new Promise((res) => setTimeout(res, 200));
+    const tryLoad = async () => {
+      if (metodo === 'topaz') {
+        // espera carregar o script sigweb
+        while (typeof window.SetTabletState !== 'function') {
+          console.log('Aguardando SigWebTablet...');
+          await new Promise((res) => setTimeout(res, 200));
+        }
       }
-    }
 
-    const adapter = getAdapterByMetodo(metodo);
-    setAdapter(adapter);
-  };
+      const adapter = getAdapterByMetodo(metodo);
+      setAdapter(adapter);
+    };
 
-  tryLoad();
-}, [id]);
+    tryLoad();
+  }, [id]);
 
 
   const handleSign = (base64: string) => {
@@ -59,7 +59,15 @@ useEffect(() => {
       {sale.signatureBase64 && (
         <div style={{ marginTop: 20 }}>
           <h3>Assinatura existente:</h3>
-          <img src={sale.signatureBase64} alt="Assinatura" />
+          <img
+            src={
+              sale.signatureBase64.startsWith('data:image')
+                ? sale.signatureBase64
+                : `data:image/jpeg;base64,${sale.signatureBase64}`
+            }
+            alt="Assinatura"
+            style={{ marginTop: 10, maxWidth: '100%', height: 'auto' }}
+          />
         </div>
       )}
     </div>
