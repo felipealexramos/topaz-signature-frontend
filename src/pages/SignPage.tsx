@@ -4,7 +4,6 @@ import { api } from '../services/api';
 import { SignatureComponent } from '@felipealexandre/signature-lib';
 import { getAdapterByMetodo } from '../config/signatureMethods';
 
-
 interface Sale {
   id: number;
   customerName: string;
@@ -38,7 +37,6 @@ export function SignPage() {
     tryLoad();
   }, [id]);
 
-
   const handleSign = (base64: string) => {
     if (!sale) return;
     api.post(`/sales/${sale.id}/signature`, { signatureBase64: base64 }).then(() => {
@@ -46,19 +44,32 @@ export function SignPage() {
     });
   };
 
-  if (!sale || !adapter) return <p>Carregando...</p>;
+  if (!sale || !adapter)
+    return (
+      <div className="flex justify-center items-center min-h-[300px]">
+        <span className="text-gray-500 text-lg">Carregando...</span>
+      </div>
+    );
 
   return (
-    <div>
-      <h1>Assinatura de Nota Fiscal</h1>
-      <p><strong>Cliente:</strong> {sale.customerName}</p>
-      <p><strong>Valor:</strong> R$ {sale.value.toFixed(2)}</p>
+    <div className="p-8 max-w-xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Assinatura de Nota Fiscal</h1>
+      <div className="mb-4">
+        <p>
+          <span className="font-semibold">Cliente:</span> {sale.customerName}
+        </p>
+        <p>
+          <span className="font-semibold">Valor:</span> R$ {sale.value.toFixed(2)}
+        </p>
+      </div>
 
-      <SignatureComponent adapter={adapter} onCapture={handleSign} />
+      <div className="mb-6">
+        <SignatureComponent adapter={adapter} onCapture={handleSign} />
+      </div>
 
       {sale.signatureBase64 && (
-        <div style={{ marginTop: 20 }}>
-          <h3>Assinatura existente:</h3>
+        <div className="mt-8 bg-gray-50 rounded p-4 border">
+          <h3 className="font-semibold mb-2">Assinatura existente:</h3>
           <img
             src={
               sale.signatureBase64.startsWith('data:image')
@@ -66,7 +77,7 @@ export function SignPage() {
                 : `data:image/jpeg;base64,${sale.signatureBase64}`
             }
             alt="Assinatura"
-            style={{ marginTop: 10, maxWidth: '100%', height: 'auto' }}
+            className="mt-2 max-w-full h-auto border rounded"
           />
         </div>
       )}

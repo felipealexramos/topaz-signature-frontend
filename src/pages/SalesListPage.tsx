@@ -30,7 +30,7 @@ export function SalesListPage() {
         </Link>
         <button
           onClick={() => navigate("/create")}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
         >
           Nova Venda
         </button>
@@ -39,21 +39,21 @@ export function SalesListPage() {
         <table className="min-w-full border border-gray-200 rounded shadow-sm">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-4 py-2 border-b">ID</th>
-              <th className="px-4 py-2 border-b">Cliente</th>
-              <th className="px-4 py-2 border-b">Valor</th>
-              <th className="px-4 py-2 border-b">Data</th>
-              <th className="px-4 py-2 border-b">Status</th>
-              <th className="px-4 py-2 border-b">Ação</th>
+              <th className="px-4 py-2 border-b text-center">ID</th>
+              <th className="px-4 py-2 border-b text-center">Cliente</th>
+              <th className="px-4 py-2 border-b text-center">Valor</th>
+              <th className="px-4 py-2 border-b text-center">Data</th>
+              <th className="px-4 py-2 border-b text-center">Status</th>
+              <th className="px-4 py-2 border-b text-center">Ação</th>
             </tr>
           </thead>
           <tbody>
             {sales.map((sale) => (
               <tr key={sale.id} className="hover:bg-gray-50">
                 <td className="px-4 py-2 border-b text-center">{sale.id}</td>
-                <td className="px-4 py-2 border-b">{sale.customerName}</td>
-                <td className="px-4 py-2 border-b">R$ {sale.value.toFixed(2)}</td>
-                <td className="px-4 py-2 border-b">{new Date(sale.createdAt).toLocaleString()}</td>
+                <td className="px-4 py-2 border-b text-center">{sale.customerName}</td>
+                <td className="px-4 py-2 border-b text-center">R$ {sale.value.toFixed(2)}</td>
+                <td className="px-4 py-2 border-b text-center">{new Date(sale.createdAt).toLocaleString()}</td>
                 <td className="px-4 py-2 border-b text-center">
                   {sale.signatureBase64 ? (
                     <span className="text-green-600 font-semibold">Assinado</span>

@@ -5,6 +5,7 @@ import { CreateSalePage } from './pages/CreateSalePage';
 import { ViewSalePage } from './pages/ViewSalePage';
 import { ConfigAssinaturaPage } from './pages/ConfigAssinaturePage';
 import { TopazSignatureCapture } from './pages/TopazSignaturePage';
+import { TopazS460SignatureCapture } from './pages/TopazS460SignatureCapture';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/view/:id" element={<ViewSalePage />} />
         <Route path="/config-signature" element={<ConfigAssinaturaPage />} /> {/* Nova rota */}
         <Route path="/topaz" element={<TopazSignatureCapture />} />
+        <Route path="/topazs460" element={<TopazS460SignatureCapture />} />
         <Route path="*" element={<h1>Página não encontrada</h1>} />
       </Routes>
     </BrowserRouter>

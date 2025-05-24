@@ -1,5 +1,5 @@
 import {
-  SigPlusExtLiteAdapter,
+  TopazUniversalAdapter,
   type ISignatureAdapter,
 } from '@felipealexandre/signature-lib';
 
@@ -8,6 +8,6 @@ export type MetodoAssinatura = 'canvas' | 'topazextlite' | 'topaz' | 'touchscree
 export function getAdapterByMetodo(metodo: string): ISignatureAdapter {
   switch (metodo) {
     default:
-      return new SigPlusExtLiteAdapter();
+      return new TopazUniversalAdapter();
   }
 }

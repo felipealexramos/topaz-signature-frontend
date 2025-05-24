@@ -7,38 +7,43 @@ export function ConfigAssinaturaPage() {
 
   const handleSubmit = () => {
     localStorage.setItem('metodoAssinatura', metodo);
-    navigate('/'); // ou selecione dinamicamente
+    navigate('/');
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Configurar Método de Assinatura</h1>
-      <label>Escolha o método:</label>
-      <div>
-        <input
-          type="radio"
-          id="canvas"
-          name="metodo"
-          value="canvas"
-          checked={metodo === 'canvas'}
-          onChange={(e) => setMetodo(e.target.value)}
-        />
-        <label htmlFor="canvas">Canvas (mouse/touch)</label>
+    <div className="p-8 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-6">Configurar Método de Assinatura</h1>
+      <label className="block mb-2 font-medium">Escolha o método:</label>
+      <div className="flex flex-col gap-3">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            id="canvas"
+            name="metodo"
+            value="canvas"
+            checked={metodo === 'canvas'}
+            onChange={(e) => setMetodo(e.target.value)}
+            className="accent-blue-600"
+          />
+          <span>Canvas (mouse/touch)</span>
+        </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            id="topazextlite"
+            name="metodo"
+            value="topazextlite"
+            checked={metodo === 'topazextlite'}
+            onChange={(e) => setMetodo(e.target.value)}
+            className="accent-blue-600"
+          />
+          <span>Topaz ExtLite (Extensão Chrome)</span>
+        </label>
       </div>
-
-      <div>
-        <input
-          type="radio"
-          id="topazextlite"
-          name="metodo"
-          value="topazextlite"
-          checked={metodo === 'topazextlite'}
-          onChange={(e) => setMetodo(e.target.value)}
-        />
-        <label htmlFor="topazextlite">Topaz ExtLite (Extensão Chrome)</label>
-      </div>
-
-      <button onClick={handleSubmit} style={{ marginTop: 20 }}>
+      <button
+        onClick={handleSubmit}
+        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition w-full"
+      >
         Ir para Assinatura
       </button>
     </div>
