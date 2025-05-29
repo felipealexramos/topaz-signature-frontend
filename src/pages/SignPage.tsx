@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../services/api';
-import { SignatureComponent } from '@felipealexandre/signature-lib';
-import { getAdapterByMetodo } from '../config/signatureMethods';
+import SignaturePad from '../components/SignaturePad';
 
 interface Sale {
   id: number;
@@ -14,46 +13,45 @@ interface Sale {
 export function SignPage() {
   const { id } = useParams();
   const [sale, setSale] = useState<Sale | null>(null);
-  const [adapter, setAdapter] = useState<any>(null);
+  const [isElectron, setIsElectron] = useState(false);
 
   useEffect(() => {
-    api.get(`/sales/${id}`).then((res) => setSale(res.data));
-
-    const metodo = localStorage.getItem('metodoAssinatura') || 'canvas';
-
-    const tryLoad = async () => {
-      if (metodo === 'topaz') {
-        // espera carregar o script sigweb
-        while (typeof window.SetTabletState !== 'function') {
-          console.log('Aguardando SigWebTablet...');
-          await new Promise((res) => setTimeout(res, 200));
-        }
-      }
-
-      const adapter = getAdapterByMetodo(metodo);
-      setAdapter(adapter);
-    };
-
-    tryLoad();
+    // Load sale data
+    if (id) {
+      api.get(`/sales/${id}`).then((res) => setSale(res.data));
+    }
+    
+    // Check if we're running in Electron
+    setIsElectron(!!window.electronAPI);
   }, [id]);
 
   const handleSign = (base64: string) => {
     if (!sale) return;
-    api.post(`/sales/${sale.id}/signature`, { signatureBase64: base64 }).then(() => {
-      alert('Assinatura salva com sucesso!');
-    });
+    
+    api.post(`/sales/${sale.id}/signature`, { signatureBase64: base64 })
+      .then(() => {
+        alert('Assinatura salva com sucesso!');
+        // Update local sale object with the new signature
+        setSale(prev => prev ? {...prev, signatureBase64: base64} : null);
+      })
+      .catch(error => {
+        console.error('Error saving signature:', error);
+        alert('Erro ao salvar assinatura');
+      });
   };
 
-  if (!sale || !adapter)
+  if (!sale) {
     return (
       <div className="flex justify-center items-center min-h-[300px]">
         <span className="text-gray-500 text-lg">Carregando...</span>
       </div>
     );
+  }
 
   return (
     <div className="p-8 max-w-xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Assinatura de Nota Fiscal</h1>
+      
       <div className="mb-4">
         <p>
           <span className="font-semibold">Cliente:</span> {sale.customerName}
@@ -63,9 +61,17 @@ export function SignPage() {
         </p>
       </div>
 
-      <div className="mb-6">
-        <SignatureComponent adapter={adapter} onCapture={handleSign} />
-      </div>
+      {isElectron ? (
+        <div className="mb-6">
+          <SignaturePad onCapture={handleSign} />
+        </div>
+      ) : (
+        <div className="p-4 bg-yellow-50 border border-yellow-300 rounded mb-6">
+          <p className="text-yellow-700">
+            Para usar a mesa de assinatura Topaz, abra este aplicativo na versão desktop.
+          </p>
+        </div>
+      )}
 
       {sale.signatureBase64 && (
         <div className="mt-8 bg-gray-50 rounded p-4 border">
@@ -81,7 +87,7 @@ export function SignPage() {
           />
         </div>
       )}
-      {/* Botão de voltar */}
+      
       <div className="mt-6">
         <button
           onClick={() => window.history.back()}
